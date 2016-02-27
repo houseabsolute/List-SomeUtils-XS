@@ -7,7 +7,7 @@ use warnings;
 our $VERSION = '0.51';
 
 use XSLoader ();
-XSLoader::load( 'List::SomeUtils::XS', $VERSION );
+XSLoader::load( __PACKAGE__, $VERSION );
 
 use List::SomeUtils::PP;
 
