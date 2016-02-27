@@ -11,6 +11,7 @@ on 'test' => sub {
   requires "Test::Builder::Module" => "0";
   requires "Test::LeakTrace" => "0";
   requires "Test::More" => "0.96";
+  requires "Test::Warnings" => "0.006";
   requires "Tie::Array" => "0";
   requires "base" => "0";
   requires "lib" => "0";
