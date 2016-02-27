@@ -6,7 +6,6 @@ use autodie qw( :all );
 
 use 5.01000;
 
-use File::Copy qw( copy );
 use File::Find::Rule;
 use File::pushd;
 use File::Temp qw( tempdir );
@@ -29,14 +28,16 @@ my $tempdir = tempdir( CLEANUP => 1 );
 
 my $t_root = "$tempdir/pp/t";
 
-for my $file ( File::Find::Rule->name(qr/\.(?:t|pm)$/)->in($t_root) ) {
-    open my $fh, '<', $file;
-    my $first_line = <$fh>;
-
-    next if $first_line =~ /^\# PP only/;
+for my $file ( map { file($_) }
+    File::Find::Rule->name(qr/\.(?:t|pm)$/)->in($t_root) ) {
 
     my $to_file = file( 't', $file =~ s{^\Q$t_root\E/}{}r );
 
-    $to_file->dir()->mkpath( 0, 0755 );
-    copy( $file => $to_file );
+    $to_file->dir->mkpath( 0, 0755 );
+
+    my $content = $file->slurp;
+    next if $content =~ /^\# PP only/;
+    $content =~ s/PP/XS/;
+
+    $to_file->spew($content);
 }
