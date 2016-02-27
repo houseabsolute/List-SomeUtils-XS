@@ -3,6 +3,13 @@ use warnings;
 
 use Test::More 0.96;
 
-use_ok('List::SomeUtils::XS');
+BEGIN { $ENV{LIST_SOMEUTILS_IMPLEMENTATION} = 'XS' }
+use List::SomeUtils;
+
+is(
+    Module::Implementation::implementation_for('List::SomeUtils'),
+    'XS',
+    'List::SomeUtils is using XS implementation'
+);
 
 done_testing();
