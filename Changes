@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+- Fix warnings that could occur when loading this module.
+
+
 0.50     2016-02-27
 
 - First release upon an unsuspecting world.
