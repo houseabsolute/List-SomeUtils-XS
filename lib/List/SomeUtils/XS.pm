@@ -4,14 +4,14 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '0.51';
-
-use XSLoader ();
-XSLoader::load( __PACKAGE__, $VERSION );
-
-use List::SomeUtils::PP;
-
 BEGIN {
+    our $VERSION = '0.51';
+
+    require XSLoader;
+    XSLoader::load( __PACKAGE__, $VERSION );
+
+    require List::SomeUtils::PP;
+
     # This list is copied from List::SomeUtils itself and should be updated
     # when subs are added.
     my @subs = qw(
