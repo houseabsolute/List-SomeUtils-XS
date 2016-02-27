@@ -8,7 +8,6 @@ on 'test' => sub {
   requires "Exporter" => "0";
   requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
-  requires "List::SomeUtils" => "0";
   requires "Test::Builder::Module" => "0";
   requires "Test::LeakTrace" => "0";
   requires "Test::More" => "0.96";
