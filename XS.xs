@@ -176,7 +176,7 @@ in_pad (SV *code)
 	int i;										\
 	arrayeach_args * args;								\
 	HV *stash = gv_stashpv("List::SomeUtils_ea", TRUE);				\
-	CV *closure = newXS(NULL, XS_List__SomeUtils__array_iterator, __FILE__);	\
+	CV *closure = newXS(NULL, XS_List__SomeUtils__XS__array_iterator, __FILE__);	\
 											\
 	/* prototype */									\
 	sv_setpv((SV*)closure, ";$");							\
@@ -357,7 +357,7 @@ DESTROY(sv)
 	}
     }
 
-MODULE = List::SomeUtils		PACKAGE = List::SomeUtils
+MODULE = List::SomeUtils::XS		PACKAGE = List::SomeUtils::XS
 
 void
 any (code,...)
@@ -1068,7 +1068,7 @@ _array_iterator (method = "")
 	int i;
 	int exhausted = 1;
 
-	/* 'cv' is the hidden argument with which XS_List__SomeUtils__array_iterator (this XSUB)
+	/* 'cv' is the hidden argument with which XS_List__SomeUtils__XS__array_iterator (this XSUB)
 	 * is called. The closure_arg struct is stored in this CV. */
 
 	arrayeach_args *args = (arrayeach_args *)(CvXSUBANY(cv).any_ptr);
@@ -1279,7 +1279,7 @@ _natatime_iterator ()
 	int i;
 	int nret;
 
-	/* 'cv' is the hidden argument with which XS_List__SomeUtils__array_iterator (this XSUB)
+	/* 'cv' is the hidden argument with which XS_List__SomeUtils__XS__array_iterator (this XSUB)
 	 * is called. The closure_arg struct is stored in this CV. */
 
 	natatime_args *args = (natatime_args*)CvXSUBANY(cv).any_ptr;
@@ -1310,7 +1310,7 @@ natatime (n, ...)
 	natatime_args * args;
 	HV *stash = gv_stashpv("List::SomeUtils_na", TRUE);
 
-	CV *closure = newXS(NULL, XS_List__SomeUtils__natatime_iterator, __FILE__);
+	CV *closure = newXS(NULL, XS_List__SomeUtils__XS__natatime_iterator, __FILE__);
 
 	/* must NOT set prototype on iterator:
 	 * otherwise one cannot write: &$it */
@@ -1798,8 +1798,3 @@ CODE:
 }
 OUTPUT:
     RETVAL
-
-void
-_XScompiled ()
-    CODE:
-       XSRETURN_YES;
