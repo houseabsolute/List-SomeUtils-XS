@@ -39,5 +39,20 @@ for my $file ( map { file($_) }
     next if $content =~ /^\# PP only/;
     $content =~ s/PP/XS/;
 
+    if ( $file =~ /\.t/ ) {
+        my $guard = <<'EOF';
+use Test::More 0.96;
+
+BEGIN {
+    eval 'require List::SomeUtils';
+    if ($@) {
+        plan skip_all => 'These tests require that List::SomeUtils already be installed';
+    }
+}
+EOF
+
+        $content =~ s/(BEGIN .+?\n)/$guard$1/;
+    }
+
     $to_file->spew($content);
 }
