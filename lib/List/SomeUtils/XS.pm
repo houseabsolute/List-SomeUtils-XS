@@ -35,6 +35,7 @@ BEGIN {
 
     for my $sub (@subs) {
         next if __PACKAGE__->can($sub);
+        ## no critic (TestingAndDebugging::ProhibitNoStrict)
         no strict 'refs';
         *{$sub} = List::SomeUtils::PP->can($sub);
     }
