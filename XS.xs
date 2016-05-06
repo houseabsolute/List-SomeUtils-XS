@@ -1,3 +1,4 @@
+#define PERL_NO_GET_CONTEXT
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
@@ -33,7 +34,7 @@
  *  2: left or right was a NaN
  */
 static I32
-ncmp(SV* left, SV * right)
+LSUXSncmp(pTHX_ SV* left, SV * right)
 {
     /* Fortunately it seems NaN isn't IOK */
     if(SvAMAGIC(left) || SvAMAGIC(right))
@@ -103,6 +104,8 @@ ncmp(SV* left, SV * right)
     }
 }
 
+#define ncmp(left,right) LSUXSncmp(aTHX_ left,right)
+
 #define FUNC_NAME GvNAME(GvEGV(ST(items)))
 
 /* shameless stolen from PadWalker */
@@ -132,7 +135,7 @@ typedef AV PAD;
 #endif
 
 static int 
-in_pad (SV *code)
+in_pad (pTHX_ SV *code)
 {
     GV *gv;
     HV *stash;
@@ -249,8 +252,8 @@ typedef struct {
     int natatime;
 } natatime_args;
 
-void
-insert_after (int idx, SV *what, AV *av) {
+static void
+insert_after (pTHX_ int idx, SV *what, AV *av) {
     int i, len;
     av_extend(av, (len = av_len(av) + 1));
 
@@ -264,7 +267,7 @@ insert_after (int idx, SV *what, AV *av) {
 }
 
 static int
-is_like(SV *sv, const char *like)
+is_like(pTHX_ SV *sv, const char *like)
 {
     int likely = 0;
     if( sv_isobject( sv ) )
@@ -305,18 +308,22 @@ is_array(SV *sv)
 }
 
 static int
-codelike(SV *code)
+LSUXScodelike(pTHX_ SV *code)
 {
     SvGETMAGIC(code);
-    return SvROK(code) && ( ( SVt_PVCV == SvTYPE(SvRV(code)) ) || ( is_like(code, "&{}" ) ) );
+    return SvROK(code) && ( ( SVt_PVCV == SvTYPE(SvRV(code)) ) || ( is_like(aTHX_ code, "&{}" ) ) );
 }
 
+#define codelike(code) LSUXScodelike(aTHX_ code)
+
 static int
-arraylike(SV *array)
+LSUXSarraylike(pTHX_ SV *array)
 {
     SvGETMAGIC(array);
-    return is_array(array) || is_like( array, "@{}" );
+    return is_array(array) || is_like(aTHX_ array, "@{}" );
 }
+
+#define arraylike(array) LSUXSarraylike(aTHX_ array)
 
 MODULE = List::SomeUtils_ea             PACKAGE = List::SomeUtils_ea
 
@@ -767,7 +774,7 @@ CODE:
 
     if (RETVAL) {
 	SvREFCNT_inc(val);
-	insert_after(i, val, av);
+	insert_after(aTHX_ i, val, av);
     }
 }
 OUTPUT:
@@ -816,7 +823,7 @@ insert_after_string (string, val, avref)
 	}
 	if (RETVAL) {
 	    SvREFCNT_inc(val);
-	    insert_after(i, val, av);
+	    insert_after(aTHX_ i, val, av);
 	}
 
     }
@@ -897,7 +904,8 @@ CODE:
     for (j = i + 1; j < items; ++j)
 	args[j-i-1] = args[j];
 
-    XSRETURN(items-i-1);
+    j = items-i-1;
+    XSRETURN(j > 0 ? j : 0);
 }
 
 void
@@ -1213,7 +1221,7 @@ pairwise (code, ...)
 	if(!arraylike(ST(2)))
 	   croak_xs_usage(cv,  "code, list, list");
 
-	if (in_pad(code)) {
+	if (in_pad(aTHX_ code)) {
 	    croak("Can't use lexical $a or $b in pairwise code block");
 	}
 
@@ -1502,13 +1510,13 @@ minmax (...)
 	if (!items)
 	    XSRETURN_EMPTY;
 
-	minsv = maxsv = ST(0);
-
         if (items == 1) {
             EXTEND(SP, 1);
-            ST(0) = ST(1) = minsv;
+	    ST(1) = sv_2mortal(newSVsv(ST(0)));
             XSRETURN(2);
         }
+
+	minsv = maxsv = ST(0);
 
 	for (i = 1; i < items; i += 2) {
 	    SV *asv = ST(i-1);
@@ -1544,6 +1552,7 @@ minmax (...)
 		maxsv = rsv;
 	    }
 	}
+
 	ST(0) = minsv;
 	ST(1) = maxsv;
 
@@ -1594,8 +1603,7 @@ CODE:
 	}
 	if (!tmp[idx])
 	    tmp[idx] = newAV();
-	av_push(tmp[idx], args[i]);
-	SvREFCNT_inc(args[i]);
+	av_push(tmp[idx], newSVsv( args[i] ));
     }
     POP_MULTICALL;
 
