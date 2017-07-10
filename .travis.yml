@@ -11,12 +11,14 @@ perl:
   - blead-thr
   - dev
   - dev-thr
-  - 5.24.0
-  - 5.24.0-thr
-  - 5.22.2
-  - 5.22.2-thr
-  - 5.20.2
-  - 5.20.2-thr
+  - 5.26.0
+  - 5.26.0-thr
+  - 5.24.1
+  - 5.24.1-thr
+  - 5.22.3
+  - 5.22.3-thr
+  - 5.20.3
+  - 5.20.3-thr
   - 5.18.3
   - 5.18.3-thr
   - 5.16.3
@@ -38,8 +40,8 @@ matrix:
       perl: '5.24'
 env:
   global:
-    - RELEASE_TESTING=1
     - AUTHOR_TESTING=1
+    - RELEASE_TESTING=1
 before_install:
   - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
   - source ~/travis-perl-helpers/init
@@ -67,3 +69,8 @@ script:
   - prove -b -j$(test-jobs) $(test-files)
 after_success:
   - coverage-report
+### __app_cisetup__
+# ---
+# force_threaded_perls: 0
+
+### __app_cisetup__
