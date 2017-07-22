@@ -1,8 +1,12 @@
 {{$NEXT}}
 
+- Added a new function, mode(), requested by Jerrad Pierce. GH #2.
+
+
 0.53     2017-06-01
 
 - Moved issue tracking to GitHub.
+
 
 0.52     2016-05-06
 
