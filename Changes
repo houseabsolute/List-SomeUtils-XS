@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.55     2017-07-23
+
 - Skip all the tests unless List::SomeUtils 0.56 is installed. This fixes the
   issue where trying to install the new List::SomeUtils ends up pulling this
   distribution, which then fails because an older LSU is installed but doesn't
