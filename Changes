@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.56     2017-12-12
+
 - The one() sub returned true when given an empty list, but it should return
   false. Reported by randyl. GH #3.
 
