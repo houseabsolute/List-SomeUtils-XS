@@ -11,12 +11,12 @@ perl:
   - blead-thr
   - dev
   - dev-thr
-  - 5.26.0
-  - 5.26.0-thr
-  - 5.24.1
-  - 5.24.1-thr
-  - 5.22.3
-  - 5.22.3-thr
+  - 5.26.1
+  - 5.26.1-thr
+  - 5.24.2
+  - 5.24.2-thr
+  - 5.22.4
+  - 5.22.4-thr
   - 5.20.3
   - 5.20.3-thr
   - 5.18.3
@@ -31,13 +31,16 @@ perl:
   - 5.10.1-thr
   - 5.8.8
   - 5.8.8-thr
+cache:
+  directories:
+    - $HOME/perl5
 matrix:
   allow_failures:
     - perl: blead
     - perl: blead-thr
   include:
     - env: COVERAGE=1
-      perl: '5.24'
+      perl: '5.26'
 env:
   global:
     - AUTHOR_TESTING=1
@@ -72,5 +75,6 @@ after_success:
 ### __app_cisetup__
 # ---
 # force_threaded_perls: 0
+# perl_caching: 1
 
 ### __app_cisetup__
