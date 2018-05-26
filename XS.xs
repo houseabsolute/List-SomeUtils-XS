@@ -3,6 +3,7 @@
 #include "perl.h"
 #include "XSUB.h"
 #include "multicall.h"
+#define NEED_croak_xs_usage
 #include "ppport.h"
 
 #ifndef aTHX
