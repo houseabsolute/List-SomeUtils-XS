@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.57     2018-05-26
+
 - Fix C compiler warnings. Reported by Jim Keenan. GH #2.
 
 
