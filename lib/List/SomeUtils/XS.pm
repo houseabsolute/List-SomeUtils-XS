@@ -80,13 +80,12 @@ There are no user-facing parts here. See L<List::SomeUtils> for API details.
 
 You shouldn't have to install this module directly. When you install
 L<List::SomeUtils>, it checks whether your system has a compiler. If it does,
-then it adds a dependency on this module so that it gets installed and you
-have the faster XS implementation.
+then it adds a dependency on this module so that it gets installed and you have
+the faster XS implementation.
 
 This distribution requires L<List::SomeUtils> but to avoid a circular
-dependency, that dependency is explicitly left out from the this
-distribution's metadata. However, without LSU already installed this module
-cannot function.
+dependency, that dependency is explicitly left out from the this distribution's
+metadata. However, without LSU already installed this module cannot function.
 
 =head1 SEE ALSO
 
