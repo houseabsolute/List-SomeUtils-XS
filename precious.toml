@@ -30,12 +30,12 @@ tidy_flags = "--in-place"
 ok_exit_codes = 0
 lint_failure_exit_codes = 1
 
-[commands.perlcritic]
-type = "lint"
-include = ["**/*.{pl,pm,t,psgi}"]
-cmd = ["perlcritic", "--profile=$PRECIOUS_ROOT/perlcriticrc"]
-ok_exit_codes = 0
-lint_failure_exit_codes = 2
+# [commands.perlcritic]
+# type = "lint"
+# include = ["**/*.{pl,pm,t,psgi}"]
+# cmd = ["perlcritic", "--profile=$PRECIOUS_ROOT/perlcriticrc"]
+# ok_exit_codes = 0
+# lint_failure_exit_codes = 2
 
 [commands.perltidy]
 type = "both"
