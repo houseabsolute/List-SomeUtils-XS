@@ -872,6 +872,12 @@ sub test_pairwise {
     @c = pairwise { ($a) x $b } @a, @b;
     is_deeply( \@c, [ (1) x 2, (1) x 3, (2) x 5, (3) x 7, (5) x 11 ], "pw8" );
 
+    # A large number of return values should be handled correctly
+    @a = (1);
+    @b = (1);
+    @c = pairwise { (7) x 100_000 } @a, @b;
+    is_deeply( \@c, [ (7) x 100_000 ], "pw large single-call return" );
+
     ( @a, @b ) = ();
     push @a, int rand(1000) for 0 .. rand(1000);
     push @b, int rand(1000) for 0 .. rand(1000);
