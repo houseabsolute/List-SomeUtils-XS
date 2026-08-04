@@ -1,0 +1,20 @@
+# Per-file allow lists, so the rest of the C sources stays spell-checked. Globs are
+# matched against the file name, not the directory it lives in. This file gets
+# its own type because it quotes the words it allows.
+
+[type.typos-config]
+extend-glob = [".typos.toml"]
+[type.typos-config.extend-words]
+Nam = "Nam"
+pn = "pn"
+
+[type.xs]
+extend-glob = ["**/XS.xs"]
+[type.xs.extend-words]
+pn = "pn"
+
+# Generated Perl C API header.
+[type.multicall]
+extend-glob = ["**/multicall.h"]
+[type.multicall.extend-words]
+Nam = "Nam"
