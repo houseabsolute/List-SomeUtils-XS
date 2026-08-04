@@ -1446,7 +1446,7 @@ sub test_minmax {
     } ( 0 .. 19 );
     is( scalar @list, 40, "minmax swallows max on COW" );
 
-    # Confirm output are independant copies of input
+    # Confirm output are independent copies of input
     $input = 1;
     is( $min, -1 );
     is( $max, -1 );
